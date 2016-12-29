@@ -1,7 +1,7 @@
 {
   "name": "coseq",
   "version": "0.0.1",
-  "description": "async/sync iterators with small LINQish api",
+  "description": "async/sync iterators with small LINQ api",
   "main": "index.js",
   "scripts": {
     "prepublish": "pakit index.js --out dist/index.js",
