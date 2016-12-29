@@ -1,0 +1,22 @@
+{
+  "name": "coseq",
+  "version": "0.0.1",
+  "description": "async/sync iterators with small LINQish api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiguelCastillo/coseq.git"
+  },
+  "keywords": [
+    "sequence"
+  ],
+  "author": "Miguel Castillo <manchagnu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MiguelCastillo/coseq/issues"
+  },
+  "homepage": "https://github.com/MiguelCastillo/coseq#readme"
+}
