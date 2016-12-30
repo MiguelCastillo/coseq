@@ -3,7 +3,56 @@ import { expect } from 'chai';
 
 var asyncIterator;
 
+
 describe('async sequence suite', function() {
+  describe('Given an interator from a Set', () => {
+    before(() => {
+      var set = new Set([1, 2, 3, 4, 5]);
+      asyncIterator = coseq
+        .asyncSequence(set.values())
+        .iterator();
+    });
+
+    assertNextValue(1, false);
+    assertNextValue(2, false);
+    assertNextValue(3, false);
+    assertNextValue(4, false);
+    assertNextValue(5, false);
+    assertNextValue(undefined, true);
+  });
+
+  describe('Given an interator from a Map', () => {
+    before(() => {
+      var map = new Map([1, 2, 3, 4, 5].entries());
+      asyncIterator = coseq
+        .asyncSequence(map.values())
+        .iterator();
+    });
+
+    assertNextValue(1, false);
+    assertNextValue(2, false);
+    assertNextValue(3, false);
+    assertNextValue(4, false);
+    assertNextValue(5, false);
+    assertNextValue(undefined, true);
+  });
+
+  describe('Given an interator from an array', () => {
+    before(() => {
+      var array = [1, 2, 3, 4, 5][Symbol.iterator]();
+      asyncIterator = coseq
+        .asyncSequence(array)
+        .iterator();
+    });
+
+    assertNextValue(1, false);
+    assertNextValue(2, false);
+    assertNextValue(3, false);
+    assertNextValue(4, false);
+    assertNextValue(5, false);
+    assertNextValue(undefined, true);
+  });
+
   describe('Given a sync iterator with async value', () => {
     var configureGenerator = () => {
       function* getItemsAsync() {
@@ -88,8 +137,8 @@ describe('async sequence suite', function() {
       assertNextValue('YES!!', true);
       assertNextValue(undefined, true);
     });
-
   });
+
 
   describe('Given an async iterator', () => {
     var configureGenerator = () => {
@@ -265,7 +314,6 @@ describe('async sequence suite', function() {
       assertNextValue('YES!!', true);
       assertNextValue(undefined, true);
     });
-
   });
 });
 
