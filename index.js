@@ -34,7 +34,7 @@ class Action {
   }
 
   skip(count) {
-    return this.skipUntil(() => count-- > 0);
+    return this.skipUntil(() => !(count-- > 0));
   }
 
   skipUntil(predicate) {
@@ -194,6 +194,7 @@ function buildActionSequence(action) {
   function createNext(action, iter) {
     return function next(value, queueResult = (v) => v) {
       return action.exec(value, (result) => queueResult({
+        done: !!result.done,
         iter: result.skip ? root : iter,
         value: result.value
       }));
