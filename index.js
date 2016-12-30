@@ -206,7 +206,7 @@ function buildActionSequence(action) {
 function syncSequence(dataIter) {
   return new RootAction(null, (value, init) => {
     var result = dataIter.next(value);
-    return result.done ? result : pushValue(init(result));
+    return result.done ? init(result) : pushValue(init(result));
   });
 
   function pushValue(result) {
@@ -233,7 +233,7 @@ function asyncSequence(dataIter) {
   return new RootAction(null, (value, init) => {
     return Promise
       .resolve(dataIter.next(value))
-      .then((result) => result.done ? result : pushValue(init(result)));
+      .then((result) => result.done ? init(result) : pushValue(init(result)));
   }, true);
 
   function pushValue(result) {
@@ -248,7 +248,7 @@ function asyncSequence(dataIter) {
 }
 
 
-export {
+export default {
   syncSequence,
   asyncSequence
 };
