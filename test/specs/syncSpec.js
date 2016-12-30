@@ -117,7 +117,7 @@ describe('sync sequence suite', function() {
 
 function assertNextValue(value, done) {
   var result;
-  describe('and calling next', () => {
+  describe('and getting the next value', () => {
     before(() => {
       result = syncIterator.next();
     });
