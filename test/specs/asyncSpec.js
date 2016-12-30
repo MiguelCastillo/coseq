@@ -4,6 +4,93 @@ import { expect } from 'chai';
 var asyncIterator;
 
 describe('async sequence suite', function() {
+  describe('Given a sync iterator with async value', () => {
+    var configureGenerator = () => {
+      function* getItemsAsync() {
+        for (var i = 1; i <= 5; i++) {
+          yield Promise.resolve(i);
+        }
+
+        return "YES!!";
+      }
+
+      asyncIterator = getItemsAsync();
+    };
+
+    describe('and calling iterator.next', () => {
+      var iter;
+      before(() => {
+        configureGenerator();
+        iter = asyncIterator.next();
+      });
+
+      it('then iter.next returns an object', () => {
+        expect(iter).to.be.a('object');
+      });
+
+      it('then iter.next.value is a promise', () => {
+        expect(iter.value).to.be.a('promise');
+      });
+    });
+
+    describe('And awaiting each value', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .awaitValue()
+          .iterator();
+      });
+
+      assertNextValue(1, false);
+      assertNextValue(2, false);
+      assertNextValue(3, false);
+      assertNextValue(4, false);
+      assertNextValue(5, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('And filtering even numbers', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .awaitValue()
+          .filter(value => value % 2 === 0)
+          .iterator();
+      });
+
+      assertNextValue(2, false);
+      assertNextValue(4, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('And multiplying by 2', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .awaitValue()
+          .map(value => value * 2)
+          .iterator();
+      });
+
+      assertNextValue(2, false);
+      assertNextValue(4, false);
+      assertNextValue(6, false);
+      assertNextValue(8, false);
+      assertNextValue(10, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+  });
+
   describe('Given an async iterator', () => {
     var configureGenerator = () => {
       async function* getItemsAsync() {
@@ -17,6 +104,18 @@ describe('async sequence suite', function() {
       asyncIterator = getItemsAsync();
     };
 
+    describe('and calling iterator.next', () => {
+      var iter;
+      before(() => {
+        configureGenerator();
+        iter = asyncIterator.next();
+      });
+
+      it('then iter.next returns a promise', () => {
+        expect(iter).to.be.a('promise');
+      });
+    });
+
     describe('when the iterator generates 5 items', () => {
       before(() => {
         configureGenerator();
@@ -29,18 +128,6 @@ describe('async sequence suite', function() {
       assertNextValue(5, false);
       assertNextValue('YES!!', true);
       assertNextValue(undefined, true);
-    });
-
-    describe('and calling iterator.next', () => {
-      var iter;
-      before(() => {
-        configureGenerator();
-        iter = asyncIterator.next();
-      });
-
-      it('then iter.next returns a promise', () => {
-        expect(iter).to.be.a('promise');
-      });
     });
 
     describe('And filtering even numbers', () => {
