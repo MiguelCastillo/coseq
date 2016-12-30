@@ -193,11 +193,13 @@ function buildActionSequence(action) {
    */
   function createNext(action, iter) {
     return function next(value, queueResult = (v) => v) {
-      return action.exec(value, (result) => queueResult({
-        done: !!result.done,
-        iter: result.skip ? root : iter,
-        value: result.value
-      }));
+      return action.exec(value, function doneCallback(result) {
+        return queueResult({
+          done: !!result.done,
+          iter: result.skip ? root : iter,
+          value: result.value
+        });
+      });
     };
   }
 }
@@ -210,18 +212,8 @@ function syncSequence(dataIter) {
   });
 
   function pushValue(result) {
-    if (!result || !result.iter) {
-      return result;
-    }
-
-    var stack = [result];
-
-    while (stack.length) {
-      result = stack.pop();
-
-      if (result && result.iter) {
-        result.iter.next(result.value, (nextResult) => stack.unshift(nextResult));
-      }
+    while (result && result.iter && !result.done) {
+      result.iter.next(result.value, (nextResult) => { result = nextResult; });
     }
 
     return result;
