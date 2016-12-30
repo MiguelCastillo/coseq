@@ -59,6 +59,74 @@ describe('async sequence suite', function() {
       assertNextValue(undefined, true);
     });
 
+    describe('And multiplying by 2', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .map(value => value * 2)
+          .iterator();
+      });
+
+      assertNextValue(2, false);
+      assertNextValue(4, false);
+      assertNextValue(6, false);
+      assertNextValue(8, false);
+      assertNextValue(10, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('And skipping the first 3', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .skip(3)
+          .iterator();
+      });
+
+      assertNextValue(4, false);
+      assertNextValue(5, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('And skipping until value is 2', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .skipUntil(value => value === 2)
+          .iterator();
+      });
+
+      assertNextValue(2, false);
+      assertNextValue(3, false);
+      assertNextValue(4, false);
+      assertNextValue(5, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('And skipping all values', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq
+          .asyncSequence(asyncIterator)
+          .skipUntil(value => value === 6)
+          .iterator();
+      });
+
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+
     describe('And multiplying even numbers by 4', () => {
       before(() => {
         configureGenerator();
@@ -117,7 +185,7 @@ describe('async sequence suite', function() {
 
 function assertNextValue(value, done) {
   var result;
-  describe('and calling next', () => {
+  describe('and getting the next value', () => {
     before(async () => {
       result = await asyncIterator.next();
     });
