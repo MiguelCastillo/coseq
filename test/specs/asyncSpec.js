@@ -8,9 +8,7 @@ describe('async sequence suite', function() {
   describe('Given an interator from a Set', () => {
     before(() => {
       var set = new Set([1, 2, 3, 4, 5]);
-      asyncIterator = coseq
-        .asyncSequence(set.values())
-        .iterator();
+      asyncIterator = coseq(set.values()).asyncIterator();
     });
 
     assertNextValue(1, false);
@@ -24,9 +22,7 @@ describe('async sequence suite', function() {
   describe('Given an interator from a Map', () => {
     before(() => {
       var map = new Map([1, 2, 3, 4, 5].entries());
-      asyncIterator = coseq
-        .asyncSequence(map.values())
-        .iterator();
+      asyncIterator = coseq(map.values()).asyncIterator();
     });
 
     assertNextValue(1, false);
@@ -40,9 +36,7 @@ describe('async sequence suite', function() {
   describe('Given an interator from an array', () => {
     before(() => {
       var array = [1, 2, 3, 4, 5][Symbol.iterator]();
-      asyncIterator = coseq
-        .asyncSequence(array)
-        .iterator();
+      asyncIterator = coseq(array).asyncIterator();
     });
 
     assertNextValue(1, false);
@@ -86,10 +80,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .awaitValue()
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(1, false);
@@ -105,11 +98,10 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .awaitValue()
           .filter(value => value % 2 === 0)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(2, false);
@@ -122,11 +114,10 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .awaitValue()
           .map(value => value * 2)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(2, false);
@@ -183,10 +174,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .filter(value => value % 2 === 0)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(2, false);
@@ -199,10 +189,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .map(value => value * 2)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(2, false);
@@ -218,10 +207,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .skip(3)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(4, false);
@@ -234,10 +222,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .skipUntil(value => value === 2)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(2, false);
@@ -252,10 +239,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .skipUntil(value => value === 6)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue('YES!!', true);
@@ -267,11 +253,10 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .filter(value => value % 2 === 0)
           .map(value => value * 4)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(8, false);
@@ -284,12 +269,11 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .skip(2)
           .filter(value => value % 2 === 0)
           .map(value => value * 3)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(12, false);
@@ -301,10 +285,9 @@ describe('async sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        asyncIterator = coseq
-          .asyncSequence(asyncIterator)
+        asyncIterator = coseq(asyncIterator)
           .skipUntil(value => value === 2)
-          .iterator();
+          .asyncIterator();
       });
 
       assertNextValue(2, false);

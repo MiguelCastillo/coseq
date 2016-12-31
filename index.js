@@ -42,7 +42,7 @@ class Action {
   }
 
   forEach(cb) {
-    var sequence = buildActionSequence(new ForEachAction(this, cb));
+    var sequence = buildActionSequence(new ForEachAction(this, cb)).withStrategy(asyncSequence);
 
     return new Promise(resolve => {
       (function iterateSequence(root) {
@@ -55,7 +55,19 @@ class Action {
    * Iterator API
    */
   iterator() {
-    return buildActionSequence(this);
+    return buildActionSequence(this).withStrategy(syncSequence);
+  }
+
+  asyncIterator() {
+    return buildActionSequence(this).withStrategy(asyncSequence);
+  }
+
+  [Symbol.iterator]() {
+    return this.iterator();
+  }
+
+  [Symbol.asyncIterator]() {
+    return this.asyncIterator();
   }
 
   /**
@@ -130,13 +142,18 @@ class DelayAction extends Action {
 }
 
 class RootAction extends Action {
-  constructor(prev, fn, isAsync = false) {
-    super(prev, fn);
-    this.isAsync = isAsync;
+  constructor(dataIter) {
+    super();
+    this.dataIter = dataIter;
   }
 
-  exec(value, init) {
-    return this.fn(value, init);
+  withStrategy(strategy) {
+    this.strategy = strategy;
+    return this;
+  }
+
+  exec(value, done) {
+    return this.strategy(this.dataIter, value, done);
   }
 }
 
@@ -146,18 +163,12 @@ class ActionIterator {
     this.next = next;
   }
 
-  [Symbol.iterator]() {
-    return this;
-  }
-}
+  withStrategy(strategy) {
+    if (!(this.action instanceof RootAction)) {
+      throw new TypeError('Only root actions can have a strategy');
+    }
 
-class AsyncActionIterator {
-  constructor(action, next) {
-    this.action = action;
-    this.next = next;
-  }
-
-  [Symbol.asyncIterator]() {
+    this.action.withStrategy(strategy);
     return this;
   }
 }
@@ -171,8 +182,7 @@ function buildActionSequence(action) {
    * one action to the next.
    */
   while (action) {
-    Ctor = action.isAsync ? AsyncActionIterator : ActionIterator;
-    root = new Ctor(action, createNext(action, root));
+    root = new ActionIterator(action, createNext(action, root));
     action = action.prev;
   }
 
@@ -204,12 +214,9 @@ function buildActionSequence(action) {
   }
 }
 
-
-function syncSequence(dataIter) {
-  return new RootAction(null, (value, init) => {
-    var result = dataIter.next(value);
-    return result.done ? init(result) : pushValue(init(result));
-  });
+function syncSequence(dataIter, value, init) {
+  var result = dataIter.next(value);
+  return result.done ? init(result) : pushValue(init(result));
 
   function pushValue(result) {
     while (result && result.iter && !result.done) {
@@ -220,13 +227,10 @@ function syncSequence(dataIter) {
   }
 }
 
-
-function asyncSequence(dataIter) {
-  return new RootAction(null, (value, init) => {
-    return Promise
-      .resolve(dataIter.next(value))
-      .then((result) => result.done ? init(result) : pushValue(init(result)));
-  }, true);
+function asyncSequence(dataIter, value, init) {
+  return Promise
+    .resolve(dataIter.next(value))
+    .then((result) => result.done ? init(result) : pushValue(init(result)));
 
   function pushValue(result) {
     if (!result || !result.iter) {
@@ -239,8 +243,8 @@ function asyncSequence(dataIter) {
   }
 }
 
+function coseq(dataIter) {
+  return new RootAction(dataIter);
+}
 
-export default {
-  syncSequence,
-  asyncSequence
-};
+export default coseq;
