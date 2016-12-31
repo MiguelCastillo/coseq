@@ -47,8 +47,7 @@ describe('sync sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        syncIterator = coseq
-          .syncSequence(syncIterator)
+        syncIterator = coseq(syncIterator)
           .filter(value => value % 2 === 0)
           .iterator();
       });
@@ -63,8 +62,7 @@ describe('sync sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        syncIterator = coseq
-          .syncSequence(syncIterator)
+        syncIterator = coseq(syncIterator)
           .filter(value => value % 2 === 0)
           .map(value => value * 4)
           .iterator();
@@ -80,8 +78,7 @@ describe('sync sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        syncIterator = coseq
-          .syncSequence(syncIterator)
+        syncIterator = coseq(syncIterator)
           .skip(2)
           .filter(value => value % 2 === 0)
           .map(value => value * 3)
@@ -97,8 +94,7 @@ describe('sync sequence suite', function() {
       before(() => {
         configureGenerator();
 
-        syncIterator = coseq
-          .syncSequence(syncIterator)
+        syncIterator = coseq(syncIterator)
           .skipUntil(value => value === 2)
           .iterator();
       });
