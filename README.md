@@ -194,7 +194,7 @@ async function* getItemsAsync() {
   return "YES!!";
 }
 
-const asyncIterator = coseq(getItemsAsync())
+coseq(getItemsAsync())
   .awaitValue()
   .map(value => value * 2)
   .forEach(value => console.log(result.value))
