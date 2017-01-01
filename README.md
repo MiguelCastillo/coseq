@@ -1,5 +1,7 @@
 # coseq
 
+[![Build Status](https://travis-ci.org/MiguelCastillo/coseq.svg?branch=master)](https://travis-ci.org/MiguelCastillo/coseq)
+
 Create iterable sequences with a small LINQ interface and support for *synchronous* and *asynchronous* iterators. Iteration is lazy, which means that items in a sequence are not read/evaluated until the data is needed. This allows for a really nice integration with infinite and/or really large data sets where eager evaluation and itermediate data storage is prohibitively expensive or impossible.
 
 # features
