@@ -50,7 +50,7 @@ class Action {
   }
 
   takeUntil(predicate) {
-    return this.takeWhile(value => !predicate(value));
+    return new TakeUntilAction(this, predicate);
   }
 
   takeWhile(predicate) {
@@ -136,6 +136,23 @@ class SkipWhileAction extends Action {
     else {
       this._active = false;
       done({ value });
+    }
+  }
+}
+
+class TakeUntilAction extends Action {
+  constructor(prev, predicate) {
+    super(prev, predicate);
+    this._active = true;
+  }
+
+  exec(value, done) {
+    if (this._active) {
+      this._active = !this.fn(value);
+      done({ value });
+    }
+    else {
+      done({ done: true });
     }
   }
 }
