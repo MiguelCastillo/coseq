@@ -1,3 +1,14 @@
 language: node_js
 node_js:
-  - "4"
+  - '4'
+deploy:
+  provider: releases
+  api_key:
+    secure: Y7sF0ZXPLgtQwwWYcGddK1wCNdlU7M+qjaOWpcj/uYSyeQEztDXBbr0l4GgLhfAB1SybzsfQmcPJNBZv0rzqFY37MCLfsZ6sK9Eu7wNkNSJTF+gLotKy/G9vRkN5g7JFzWlG1FpmwbMgNC3sCvHZvqc9tzf+CpFUeMQgjmfWe5vYg7WdDikgWe8NgMt/RgRytQFSDw9LDYkiRoVYxRH3vJocWZvYB9+yfKPiTwnJb3A9W+dmALKewWrtCRvQGEcBbo9+8vz938ANrzC2B2YGqBko+kJo7eeUB/BLqxUliOz+j0jFJ+PP8qLEcT2LPJdeB6rWosCyC4fsw2MLM8rdBfPec7xIXJf4kP7TtwwoU7pvOu+uJcn9EqAgbDKpfPt6BQHso8MhBCgs2H04+DWGOE/mw8nlxqJlw5ZQpk9fFuYmenXnfN8UUXw8vhSfu6P03MHgGlU41r+9aAyxvNZQtES2kt0LNZAjxgokWq5i4V1Jxm1Y8oK86XoZ2o00g9fnMPzQVt4S3nicU5IjNQSRawn3N20egs/tX1l9NkFxeJ0VVisSSXidtJlhcaOvSrmq9IH5pcxAM6TLHEqnqOhUrzGCgTR8Kxe899z9K6CtL+1EiBiGa4usbhxbGYIDI/r2lN8iPjgupr28D5OXkNPzESaxtzpiGUh9bKAybmUf6gs=
+  file:
+    - dist/index.js
+    - dist/index.js.map
+  skip_cleanup: true
+  on:
+    repo: MiguelCastillo/coseq
+    tags: true
