@@ -117,6 +117,50 @@ const sequence = coseq(getItemsAsync())
 ```
 
 
+### filter
+
+Method to skip items in a sequence when the provided predicate returns falsy values.
+
+> alias `where`
+
+``` javascript
+coseq(getItemsAsync()).filter(value => value % 2);
+```
+
+### map
+
+Method to transform the current value in the sequence.
+
+> alias `select`
+
+``` javascript
+coseq(getItemsAsync()).map(value => value * 2);
+```
+
+### forEach
+
+Method to iterate through the items in a sequence. You can use this instead of the `for of` and `for await of` constructs.
+
+> `forEach` runs asynchronously and returns a promise, which is particularly useful for accessing to the value returned by generator functions.
+
+In the example below, all values are printed out in the `forEach`. And when the generator is all done generating values, the last `then` method in the chain will print `YES!!`;
+
+``` javascript
+async function* getItemsAsync() {
+  for (var i = 1; i <= 5000000; i++) {
+    yield await i;
+  }
+
+  return "YES!!";
+}
+
+coseq(getItemsAsync())
+  .filter(value => value % 2)
+  .map(value => value * 2)
+  .forEach(value => console.log(result.value))
+  .then(result => console.log(result.value));
+```
+
 ### skip
 
 Method to skip (discard) a specific number of items in a sequence.
@@ -126,7 +170,6 @@ The example below skips the first 3 items.
 ``` javascript
 coseq(getItemsAsync()).skip(3);
 ```
-
 
 ### skipUntil
 
@@ -166,49 +209,4 @@ Method to add a delay before continuing to process the current item in the seque
 coseq(getItemsAsync())
   .skipUntil(value => value === 2)
   .delay(3000);
-```
-
-
-### filter
-
-Method to skip items in a sequence when the provided predicate returns falsy values.
-
-> alias `where`
-
-``` javascript
-coseq(getItemsAsync()).filter(value => value % 2);
-```
-
-### map
-
-Method to transform the current value in the sequence.
-
-> alias `select`
-
-``` javascript
-coseq(getItemsAsync()).map(value => value * 2);
-```
-
-### forEach
-
-Method to iterate through the items in a sequence. You can use this instead of the `for of` and `for await of` constructs.
-
-> `forEach` runs asynchronously and returns a promise, which is particularly useful for accessing to the value returned by generator functions.
-
-In the example below, all values are printed out in the `forEach`. And when the generator is all done generating values, the last `then` method in the chain will print `YES!!`;
-
-``` javascript
-async function* getItemsAsync() {
-  for (var i = 1; i <= 5000000; i++) {
-    yield await Promise.resolve(i);
-  }
-
-  return "YES!!";
-}
-
-coseq(getItemsAsync())
-  .awaitValue()
-  .map(value => value * 2)
-  .forEach(value => console.log(result.value))
-  .then(result => console.log(result.value));
 ```
