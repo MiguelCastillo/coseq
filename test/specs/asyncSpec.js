@@ -326,12 +326,12 @@ describe('async sequence suite', function() {
       assertNextValue(undefined, true);
     });
 
-    describe('And taking while value is smaller or equal to 3', () => {
+    describe('And taking until value is equal to 3', () => {
       before(() => {
         configureGenerator();
 
         asyncIterator = coseq(asyncIterator)
-          .takeWhile(value => value <= 3)
+          .takeUntil(value => value === 3)
           .asyncIterator();
       });
 
@@ -353,6 +353,21 @@ describe('async sequence suite', function() {
       // */
       //
       // assertNextValue(undefined, true);
+    });
+
+    describe('And taking while value is smaller than 3', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq(asyncIterator)
+          .takeWhile(value => value !== 3)
+          .asyncIterator();
+      });
+
+      assertNextValue(1, false);
+      assertNextValue(2, false);
+      assertNextValue(undefined, true);
+      assertNextValue(undefined, true);
     });
 
     describe('And multiplying even numbers by 4', () => {

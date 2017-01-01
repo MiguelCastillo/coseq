@@ -171,6 +171,16 @@ The example below will pull the first 3 items
 coseq(getItemsAsync()).take(3);
 ```
 
+### takeUntil
+
+Method to read items from a sequence until the predicate function returns true. This is a one time operation so once the condition is true, the sequence will no longer return values.
+
+The example below will pull items until the value is equal to 2, including 2.
+
+``` javascript
+coseq(getItemsAsync()).takeUntil(value => value === 2);
+```
+
 ### takeWhile
 
 Method to read items from a sequence while the predicate function returns true. This is a one time operation so once the condition is no longer satisfied, the sequence will no longer return values.
