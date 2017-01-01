@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 var asyncIterator;
 
-
 describe('async sequence suite', function() {
   describe('Given an interator from a Set', () => {
     before(() => {
@@ -131,7 +130,70 @@ describe('async sequence suite', function() {
   });
 
 
-  describe('Given an async iterator', () => {
+  describe('Given an async iterator with consecutive duplicate values', () => {
+    var configureGenerator = () => {
+      async function* getItemsAsync() {
+        for (var i = 1; i <= 2; i++) {
+          yield await Promise.resolve(1);
+        }
+
+        for (var i = 1; i <= 2; i++) {
+          yield await Promise.resolve(2);
+        }
+
+        for (var i = 1; i <= 5; i++) {
+          yield await Promise.resolve(i);
+        }
+
+        return "YES!!";
+      }
+
+      asyncIterator = getItemsAsync();
+    };
+
+    describe('when the iterator generates 5 items', () => {
+      before(() => {
+        configureGenerator();
+      });
+
+      assertNextValue(1, false);
+      assertNextValue(1, false);
+
+      assertNextValue(2, false);
+      assertNextValue(2, false);
+
+      assertNextValue(1, false);
+      assertNextValue(2, false);
+      assertNextValue(3, false);
+      assertNextValue(4, false);
+      assertNextValue(5, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('and skipping all values while they are 1', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq(asyncIterator)
+          .skipWhile(value => value === 1)
+          .asyncIterator();
+      });
+
+      assertNextValue(2, false);
+      assertNextValue(2, false);
+      assertNextValue(1, false);
+      assertNextValue(2, false);
+      assertNextValue(3, false);
+      assertNextValue(4, false);
+      assertNextValue(5, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+  });
+
+
+  describe('Given an async iterator with no duplicate values', () => {
     var configureGenerator = () => {
       async function* getItemsAsync() {
         for (var i = 1; i <= 5; i++) {

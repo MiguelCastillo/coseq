@@ -34,11 +34,15 @@ class Action {
   }
 
   skip(count) {
-    return this.skipUntil(() => !(count-- > 0));
+    return this.skipWhile(() => (count-- > 0));
   }
 
   skipUntil(predicate) {
-    return new SkipUntilAction(this, predicate);
+    return this.skipWhile(value => !predicate(value));
+  }
+
+  skipWhile(predicate) {
+    return new SkipWhileAction(this, predicate);
   }
 
   forEach(cb) {
@@ -107,14 +111,14 @@ class FilterAction extends Action {
   }
 }
 
-class SkipUntilAction extends Action {
+class SkipWhileAction extends Action {
   constructor(prev, predicate) {
     super(prev, predicate);
     this._active = true;
   }
 
   exec(value, done) {
-    if (this._active && !this.fn(value)) {
+    if (this._active && this.fn(value)) {
       done({ skip: true });
     }
     else {
