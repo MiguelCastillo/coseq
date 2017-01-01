@@ -45,6 +45,18 @@ class Action {
     return new SkipWhileAction(this, predicate);
   }
 
+  take(count) {
+    return this.takeWhile(() => (count-- > 0));
+  }
+
+  takeUntil(predicate) {
+    return this.takeWhile(value => !predicate(value));
+  }
+
+  takeWhile(predicate) {
+    return new TakeWhileAction(this, predicate);
+  }
+
   forEach(cb) {
     var sequence = buildActionSequence(new ForEachAction(this, cb)).withStrategy(asyncSequence);
 
@@ -124,6 +136,23 @@ class SkipWhileAction extends Action {
     else {
       this._active = false;
       done({ value });
+    }
+  }
+}
+
+class TakeWhileAction extends Action {
+  constructor(prev, predicate) {
+    super(prev, predicate);
+    this._active = true;
+  }
+
+  exec(value, done) {
+    if (this._active && this.fn(value)) {
+      done({ value });
+    }
+    else {
+      this._active = false;
+      done({ done: true });
     }
   }
 }

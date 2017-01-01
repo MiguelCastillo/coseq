@@ -161,9 +161,29 @@ coseq(getItemsAsync())
   .then(result => console.log(result.value));
 ```
 
+### take
+
+Method to read a specific number of items from a sequence. This is a one time operation so once the specified number of items are read, no further values will be processed.
+
+The example below will pull the first 3 items
+
+``` javascript
+coseq(getItemsAsync()).take(3);
+```
+
+### takeWhile
+
+Method to read items from a sequence while the predicate function returns true. This is a one time operation so once the condition is no longer satisfied, the sequence will no longer return values.
+
+The example below will pull items while the value is smaller or equal to 2
+
+``` javascript
+coseq(getItemsAsync()).takeWhile(value => value <= 2);
+```
+
 ### skip
 
-Method to skip (discard) a specific number of items in a sequence.
+Method to skip (discard) a specific number of items in a sequence. This is a one time operation so once the specified number of items are read, no more items will be skipped.
 
 The example below skips the first 3 items.
 
@@ -173,7 +193,9 @@ coseq(getItemsAsync()).skip(3);
 
 ### skipUntil
 
-Method to skip (discard) items until the provided predicate function returns true. This is a one time operation so once the condition is true, `skipUntil` will no longer be executed.
+Method to skip (discard) items until the provided predicate function returns true. This is a one time operation so once the condition is true, `skipUntil` will no longer skip items.
+
+> This is the negative of `skipWhile`
 
 The example below skips until the value is 3.
 
@@ -183,7 +205,7 @@ coseq(getItemsAsync()).skipUntil(value => value === 3);
 
 ### skipWhile
 
-Method to skip (discard) items while the provided predicate function return true. This is a one time operation so once the condition is true, `skipWhile` will no longer be executed.
+Method to skip (discard) items while the provided predicate function return true. This is a one time operation so once the condition is true, `skipWhile` will no longer skip items.
 
 The example below skips while the value is 1.
 
