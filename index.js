@@ -165,7 +165,7 @@ class ActionIterator {
 
   withStrategy(strategy) {
     if (!(this.action instanceof RootAction)) {
-      throw new TypeError('Only root actions can have a strategy');
+      throw new TypeError("Only root actions can have a strategy");
     }
 
     this.action.withStrategy(strategy);
@@ -174,7 +174,7 @@ class ActionIterator {
 }
 
 function buildActionSequence(action) {
-  var root, Ctor;
+  var root;
 
   /**
    * This is walking the list of method that process data backwards
