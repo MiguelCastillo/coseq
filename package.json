@@ -1,6 +1,6 @@
 {
   "name": "coseq",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "async/sync iterators with small LINQ api",
   "main": "index.js",
   "scripts": {
