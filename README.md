@@ -119,7 +119,7 @@ const sequence = coseq(getItemsAsync())
 
 ### skip
 
-Method to skip a specific number of items in a sequence.
+Method to skip (discard) a specific number of items in a sequence.
 
 The example below skips the first 3 items.
 
@@ -130,12 +130,22 @@ coseq(getItemsAsync()).skip(3);
 
 ### skipUntil
 
-Method to skip items until the provided predicate function returns true.
+Method to skip (discard) items until the provided predicate function returns true. This is a one time operation so once the condition is true, `skipUntil` will no longer be executed.
 
 The example below skips until the value is 3.
 
 ``` javascript
 coseq(getItemsAsync()).skipUntil(value => value === 3);
+```
+
+### skipWhile
+
+Method to skip (discard) items while the provided predicate function return true. This is a one time operation so once the condition is true, `skipWhile` will no longer be executed.
+
+The example below skips while the value is 1.
+
+``` javascript
+coseq(getItemsAsync()).skipWhile(value => value === 1);
 ```
 
 ### awaitValue (async sequence only)
