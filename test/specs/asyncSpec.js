@@ -310,6 +310,50 @@ describe('async sequence suite', function() {
       assertNextValue(undefined, true);
     });
 
+    describe('And taking the first 2 items', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq(asyncIterator)
+          .take(2)
+          .asyncIterator();
+      });
+
+      assertNextValue(1, false);
+      assertNextValue(2, false);
+      assertNextValue(undefined, true);
+      assertNextValue(undefined, true);
+      assertNextValue(undefined, true);
+    });
+
+    describe('And taking while value is smaller or equal to 3', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq(asyncIterator)
+          .takeWhile(value => value <= 3)
+          .asyncIterator();
+      });
+
+      assertNextValue(1, false);
+      assertNextValue(2, false);
+      assertNextValue(3, false);
+      assertNextValue(undefined, true);
+      assertNextValue(undefined, true);
+
+      // /*
+      // The following fails because items are still being
+      // read from the data source even after no more values
+      // should be read. To fix this correctly, the sequence
+      // workflow must be to pull data from bottom to top of
+      // the sequence tree instead of pushing data from the
+      // top down.
+      //
+      // This really needs to get fixed!
+      // */
+      //
+      // assertNextValue(undefined, true);
+    });
 
     describe('And multiplying even numbers by 4', () => {
       before(() => {

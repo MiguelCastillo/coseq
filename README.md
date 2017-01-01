@@ -161,6 +161,26 @@ coseq(getItemsAsync())
   .then(result => console.log(result.value));
 ```
 
+### take
+
+Method to read a specific number of items from a sequence.
+
+The example below will pull the first 3 items
+
+``` javascript
+coseq(getItemsAsync()).take(3);
+```
+
+### takeWhile
+
+Method to read items from a sequence for which the predicate function returns true.
+
+The example below will pull items while the value is smaller or equal to 2
+
+``` javascript
+coseq(getItemsAsync()).takeWhile(value => value <= 2);
+```
+
 ### skip
 
 Method to skip (discard) a specific number of items in a sequence.
@@ -174,6 +194,8 @@ coseq(getItemsAsync()).skip(3);
 ### skipUntil
 
 Method to skip (discard) items until the provided predicate function returns true. This is a one time operation so once the condition is true, `skipUntil` will no longer be executed.
+
+> This is the negative of `skipWhile`
 
 The example below skips until the value is 3.
 
