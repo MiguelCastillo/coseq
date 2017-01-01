@@ -297,6 +297,23 @@ describe('async sequence suite', function() {
       assertNextValue(undefined, true);
     });
 
+    describe('And skipping while value is not 2', () => {
+      before(() => {
+        configureGenerator();
+
+        asyncIterator = coseq(asyncIterator)
+          .skipWhile(value => value !== 2)
+          .asyncIterator();
+      });
+
+      assertNextValue(2, false);
+      assertNextValue(3, false);
+      assertNextValue(4, false);
+      assertNextValue(5, false);
+      assertNextValue('YES!!', true);
+      assertNextValue(undefined, true);
+    });
+
     describe('And skipping all values', () => {
       before(() => {
         configureGenerator();
@@ -355,7 +372,7 @@ describe('async sequence suite', function() {
       // assertNextValue(undefined, true);
     });
 
-    describe('And taking while value is smaller than 3', () => {
+    describe('And taking while value is not 3', () => {
       before(() => {
         configureGenerator();
 

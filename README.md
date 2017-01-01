@@ -205,8 +205,6 @@ coseq(getItemsAsync()).skip(3);
 
 Method to skip (discard) items until the provided predicate function returns true. This is a one time operation so once the condition is true, `skipUntil` will no longer skip items.
 
-> This is the negative of `skipWhile`
-
 The example below skips until the value is 3.
 
 ``` javascript
