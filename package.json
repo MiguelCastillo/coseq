@@ -12,7 +12,15 @@
     "url": "git+https://github.com/MiguelCastillo/coseq.git"
   },
   "keywords": [
-    "sequence"
+    "cosequence",
+    "sequence",
+    "iterable",
+    "iterator",
+    "enumerable",
+    "enumerator",
+    "async",
+    "foreach",
+    "map"
   ],
   "author": "Miguel Castillo <manchagnu@gmail.com>",
   "license": "MIT",
