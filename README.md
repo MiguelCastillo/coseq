@@ -2,7 +2,14 @@
 
 [![Build Status](https://travis-ci.org/MiguelCastillo/coseq.svg?branch=master)](https://travis-ci.org/MiguelCastillo/coseq)
 
-Create iterable sequences with a small LINQ interface and support for *synchronous* and *asynchronous* iterators. Iteration is lazy, which means that items in a sequence are not read/evaluated until the data is needed. This allows for a really nice integration with infinite and/or really large data sets where eager evaluation and itermediate data storage is prohibitively expensive or impossible.
+Compose chains of high order functions for *synchronous and asynchronous iterators*. Iteration is lazy, which means that items are not read/evaluated until the data is needed. This allows for a really nice integration with infinite and/or really large data sets where eager evaluation and itermediate data storage is prohibitively expensive or impossible.
+
+> [async iterators](https://github.com/tc39/proposal-async-iteration) are a thing in JavaScript.
+
+The first use case is around generators, which can create *asynchronous and synchrnous iterators*. You can craft generators to yield anything you want (more than once), in which case they are referred to as coroutines. Combining the coroutine nature of generators and the ability to iterate over the data they yield is why the name `coseq` came about. Not very creative - I know.
+
+> subroutines return one value. coroutines can yield multiple values before running to completion.
+
 
 # features
 
@@ -26,7 +33,9 @@ $ npm install coseq --save
 
 ### coseq
 
-Method to create iterable sequences capable of building chains of high order functions to process your data.
+Method that wraps an iterator to create chains of high order functions to process your data.
+
+The contract with `coseq` is the [iterator protocol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols), which is why anything that can create an interator can be used with `coseq`. This includes `array`, `Set`, `Map`... etc.
 
 Below is an example of filtering even numbers and multiplying the values by 2.
 
