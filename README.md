@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/MiguelCastillo/coseq.svg?branch=master)](https://travis-ci.org/MiguelCastillo/coseq)
 
-Compose chains of high order functions for *synchronous and asynchronous iterators*. Iteration is lazy, which means that items are not read/evaluated until the data is needed. This allows for a really nice integration with infinite and/or really large data sets where eager evaluation and itermediate data storage is prohibitively expensive or impossible.
+Compose chains of functions to manipulate data via *synchronous and asynchronous iterators*. Data iteration is lazy, which means that items are not read/evaluated until the data is needed. This allows for a really nice integration with infinite and/or really large data sets where eager evaluation and itermediate data storage is prohibitively expensive or impossible.
 
 > [async iterators](https://github.com/tc39/proposal-async-iteration) are a thing in JavaScript.
 
