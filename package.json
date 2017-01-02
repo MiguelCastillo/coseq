@@ -1,7 +1,7 @@
 {
   "name": "coseq",
   "version": "0.5.4",
-  "description": "async/sync iterators with small LINQ api",
+  "description": "Compose chains of high order functions for async/sync iterators",
   "main": "index.js",
   "scripts": {
     "prepublish": "pakit index.js --out dist/index.js",
@@ -20,7 +20,8 @@
     "enumerator",
     "async",
     "foreach",
-    "map"
+    "map",
+    "linq"
   ],
   "author": "Miguel Castillo <manchagnu@gmail.com>",
   "license": "MIT",
