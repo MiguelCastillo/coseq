@@ -1,7 +1,7 @@
 {
   "name": "coseq",
   "version": "0.5.4",
-  "description": "Compose chains of high order functions for async/sync iterators",
+  "description": "Compose chains of functions to manipulate data via synchronous and asynchronous iterators",
   "main": "index.js",
   "scripts": {
     "prepublish": "pakit index.js --out dist/index.js",
