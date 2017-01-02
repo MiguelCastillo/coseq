@@ -1,6 +1,6 @@
 {
   "name": "coseq",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Compose chains of functions to manipulate data via synchronous and asynchronous iterators",
   "main": "index.js",
   "scripts": {
