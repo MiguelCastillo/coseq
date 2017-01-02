@@ -10,6 +10,8 @@ The first use case is around generators, which can create *asynchronous and sync
 
 > subroutines return one value. coroutines can yield multiple values before running to completion.
 
+You can take a look at this [codepen](http://codepen.io/MiguelCastillo/pen/KNLMZq?editors=0010) if you want to play with `coseq`.
+
 
 # features
 
