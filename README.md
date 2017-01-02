@@ -37,8 +37,7 @@ const set = new Set([1, 2, 3, 4]);
 
 const sequence = coseq(set.values())
   .filter(value => value % 2)
-  .map(value => value * 2)
-  .delay(1000);
+  .map(value => value * 2);
 
 function runSequence() {
   for (var value of sequence) {
