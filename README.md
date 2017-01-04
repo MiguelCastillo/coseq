@@ -76,13 +76,13 @@ const sequence = coseq(getItemsSync())
   .filter(value => value % 2)
   .map(value => value * 2);
 
-function runSequence() {
+function runSequence(sequence) {
   for (var value of sequence) {
     console.log(value);
   }
 }
 
-runSequence();
+runSequence(sequence);
 ```
 
 Below is a contrived example with *async generators*.
@@ -100,13 +100,13 @@ const sequence = coseq(getItemsAsync())
   .filter(value => value % 2)
   .map(value => value * 2);
 
-async function runSequence() {
+async function runSequence(sequence) {
   for await (var value of sequence) {
     console.log(value);
   }
 }
 
-runSequence();
+runSequence(sequence);
 ```
 
 You can also await values in the sequence with the helper method `awaitValue`.
@@ -124,6 +124,14 @@ const sequence = coseq(getItemsAsync())
   .awaitValue() // <== This will await the promise yielded by the iterator
   .filter(value => value % 2)
   .map(value => value * 2);
+  
+async function runSequence(sequence) {
+  for await (var value of sequence) {
+    console.log(value);
+  }
+}
+
+runSequence(sequence);
 ```
 
 
