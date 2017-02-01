@@ -1,8 +1,6 @@
 # coseq
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/MiguelCastillo/coseq.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/MiguelCastillo/coseq.svg?branch=master)](https://travis-ci.org/MiguelCastillo/coseq)
+[![Build Status](https://travis-ci.org/MiguelCastillo/coseq.svg?branch=master)](https://travis-ci.org/MiguelCastillo/coseq)[![Greenkeeper badge](https://badges.greenkeeper.io/MiguelCastillo/coseq.svg)](https://greenkeeper.io/)
 
 Compose chains of functions to manipulate data via *synchronous and asynchronous iterators*. Data iteration is lazy, which means that items are not read/evaluated until the data is needed. This allows for a really nice integration with infinite and/or really large data sets where eager evaluation and itermediate data storage is prohibitively expensive or impossible.
 
