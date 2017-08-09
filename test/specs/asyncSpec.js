@@ -357,19 +357,7 @@ describe('async sequence suite', function() {
       assertNextValue(3, false);
       assertNextValue(undefined, true);
       assertNextValue(undefined, true);
-
-      // /*
-      // The following fails because items are still being
-      // read from the data source even after no more values
-      // should be read. To fix this correctly, the sequence
-      // workflow must be to pull data from bottom to top of
-      // the sequence tree instead of pushing data from the
-      // top down.
-      //
-      // This really needs to get fixed!
-      // */
-      //
-      // assertNextValue(undefined, true);
+      assertNextValue(undefined, true);
     });
 
     describe('And taking while value is not 3', () => {
