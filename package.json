@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepublish": "pakit index.js --out dist/index.js",
+    "build": "pakit index.js --out dist/index.js",
     "test": "mocha --compilers js:babel-register"
   },
   "repository": {
