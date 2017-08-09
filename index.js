@@ -189,7 +189,7 @@ class RootAction extends Action {
   }
 }
 
-function buildActionSequence(action, strategy) {
+function buildActionSequence(action, strategyFactory) {
   var next = null;
 
   while (action) {
@@ -198,42 +198,38 @@ function buildActionSequence(action, strategy) {
   }
 
   return {
-    next: (value) => {
-      return strategy(next, value);
-    }
+    next: strategyFactory({ next, done: false })
   };
 }
 
-function syncSequence(root, value) {
-  var next = root;
-  var result = { value };
+function syncSequence(root) {
+  function nextValue(next, result, initialValue) {
+    while(!result.done && next) {
+      next.action.exec(result.value, (r) => {
+        result = r.skip ? { value: initialValue } : r;
+        next = r.skip ? root.next : next.next;
+      });
+    }
 
-  while(!result.done && next) {
-    next.action.exec(result.value, (r) => {
-      result = r.skip ? { value } : r;
-      next = r.skip ? root : next.next;
-    });
+    root.done = result.done = !!result.done;
+    return result;
   }
 
-  result.done = !!result.done;
-  return result;
+  return (value) => root.done ? { done: true } : nextValue(root.next, { value }, value);
 }
 
-function asyncSequence(root, value) {
-  return nextValue(root, { value });
-
-  function nextValue(next, result) {
-    if (!next || result.done) {
-      result.done = !!result.done;
+function asyncSequence(root) {
+  function nextValue(next, result, initialValue) {
+    if (result.done || !next) {
+      root.done = result.done = !!result.done;
       return Promise.resolve(result);
     }
 
     return new Promise(resolve => next.action.exec(result.value, resolve))
-      .then(result => (
-        result.done ? result :
-        result.skip ? nextValue(root, { value }) : nextValue(next.next, result)
-      ));
+      .then(result => result.skip ? nextValue(root.next, { value: initialValue }, initialValue) : nextValue(next.next, result, initialValue));
   }
+
+  return (value) => root.done ? { done: true } : nextValue(root.next, { value }, value);
 }
 
 function coseq(dataIter) {
