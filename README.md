@@ -50,13 +50,9 @@ const sequence = coseq(set.values())
   .filter(value => value % 2)
   .map(value => value * 2);
 
-function runSequence() {
-  for (var value of sequence) {
-    console.log(value);
-  }
+for (var value of sequence) {
+  console.log(value);
 }
-
-runSequence();
 ```
 
 The potential of coseq can be more easily experienced with infinite or really large data sets. *Generators are a good example of this.*
@@ -76,13 +72,9 @@ const sequence = coseq(getItemsSync())
   .filter(value => value % 2)
   .map(value => value * 2);
 
-function runSequence(sequence) {
-  for (var value of sequence) {
-    console.log(value);
-  }
+for (var value of sequence) {
+  console.log(value);
 }
-
-runSequence(sequence);
 ```
 
 Below is a contrived example with *async generators*.
